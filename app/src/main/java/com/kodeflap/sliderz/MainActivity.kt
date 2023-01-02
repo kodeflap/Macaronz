@@ -10,9 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.kodeflap.sliderz.ui.theme.Purple40
+import com.kodeflap.sliderz.ui.theme.Purple80
 import com.kodeflap.sliderz.ui.theme.PurpleGrey80
 import com.kodeflap.sliderz.ui.theme.SliderzTheme
 
@@ -34,9 +37,30 @@ class MainActivity : ComponentActivity() {
                             .size(250.dp)
                             .background(Color.Black),
                         radius = 250f,
-                        initialValue = 10,
-                        primaryColor = PurpleGrey80,
-                        secondaryColor = Purple40,
+                        minValue = 0,
+                        maxValue = 100,
+                        gapBetweenOuterLineAndInnerCircle = 15f,
+                        ProgressSweepColor = Brush.linearGradient(
+                            listOf(
+                                PurpleGrey80,
+                                Color.Transparent
+                            )
+                        ),
+                        innerCircleStrokeColor = Purple40,
+                        innerCircleBackgroundColor = Brush.radialGradient(
+                            listOf(
+                                PurpleGrey80.copy(0.4f),
+                                Purple80.copy(0.20f)
+                            )
+                        ),
+                        outerLineColor = Brush.linearGradient(
+                            listOf(
+                                Purple80.copy(0.3f),
+                                Purple40.copy(0.3f)
+                            )
+                        ),
+                        progressTextColor = PurpleGrey80,
+                        progressTextSize = 38.sp,
                         onPositionChange = {
 
                         }

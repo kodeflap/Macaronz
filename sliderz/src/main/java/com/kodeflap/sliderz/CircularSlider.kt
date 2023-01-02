@@ -14,26 +14,30 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlin.math.*
 
 @Composable
 fun CircularProgressBar(
     modifier: Modifier = Modifier,
     radius: Float,
-    initialValue: Int,
-    minValue: Int = 0,
-    maxValue: Int = 100,
-    primaryColor: Color,
-    secondaryColor: Color,
+    minValue: Int,
+    maxValue: Int,
+    gapBetweenOuterLineAndInnerCircle: Float,
+    ProgressSweepColor: Brush,
+    innerCircleStrokeColor: Color,
+    innerCircleBackgroundColor: Brush,
+    outerLineColor: Brush,
+    progressTextColor: Color,
+    progressTextSize: TextUnit = TextUnit.Unspecified,
     onPositionChange: (Int) -> Unit
 ) {
     var center by remember {
         mutableStateOf(Offset.Zero)
     }
     var position by remember {
-        mutableStateOf(initialValue)
+        mutableStateOf(minValue)
     }
     var anglePosition by remember {
         mutableStateOf(0f)
@@ -42,16 +46,22 @@ fun CircularProgressBar(
         mutableStateOf(0f)
     }
     var centerValue by remember {
-        mutableStateOf(initialValue)
+        mutableStateOf(minValue)
     }
 
     Box(modifier) {
-        centerValue = initialValue
-        position = initialValue
+        centerValue = minValue
+        position = minValue
         Canvas(
             modifier = Modifier
                 .fillMaxSize()
                 .pointerInput(true) {
+
+                    /** Drag Gesture
+                     * The Drag gesture specifies the starting point and ending point
+                     *
+                     */
+
                     detectDragGestures(
                         onDragStart = { offset ->
                             angleStartPosition = -atan2(
@@ -94,26 +104,27 @@ fun CircularProgressBar(
             val thickness = width / 25f
             center = Offset(x = width / 2f, y = height / 2f)
 
+            /** --------inner circle----------------
+             *
+             */
             drawCircle(
-                brush = Brush.radialGradient(
-                    listOf(
-                        primaryColor.copy(0.4f),
-                        secondaryColor.copy(0.20f)
-                    )
-                ),
+                brush = innerCircleBackgroundColor,
                 radius = radius,
                 center = center
             )
 
             drawCircle(
                 style = Stroke(width = thickness),
-                color = secondaryColor,
+                color = innerCircleStrokeColor,
                 radius = radius,
                 center = center
             )
 
+            /** Progress Stroke color specification
+             *
+             */
             drawArc(
-                color = primaryColor,
+                brush = ProgressSweepColor,
                 startAngle = 90f,
                 sweepAngle = (360f / maxValue) * position.toFloat(),
                 style = Stroke(
@@ -132,14 +143,13 @@ fun CircularProgressBar(
             )
 
             val outerRadius = radius + thickness / 2f
-            val gap = 15f
             for (i in 0..(maxValue - minValue)) {
                 val color =
-                    if (i < position - minValue) primaryColor else primaryColor.copy(alpha = 0.3f)
+                    if (i < position - minValue) ProgressSweepColor else outerLineColor
                 val angleInDegree = i * 360f / (maxValue - minValue).toFloat()
                 val angleInRad = angleInDegree * PI / 180f + PI / 2f
-                val yGap = cos(angleInDegree * PI / 180f) * gap
-                val xGap = -sin(angleInDegree * PI / 180f) * gap
+                val yGap = cos(angleInDegree * PI / 180f) * gapBetweenOuterLineAndInnerCircle
+                val xGap = -sin(angleInDegree * PI / 180f) * gapBetweenOuterLineAndInnerCircle
 
                 val start = Offset(
                     x = (outerRadius * cos(angleInRad) + center.x + xGap).toFloat(),
@@ -154,7 +164,7 @@ fun CircularProgressBar(
                     pivot = start
                 ) {
                     drawLine(
-                        color = color,
+                        brush = color,
                         start = start,
                         end = end,
                         strokeWidth = 2.dp.toPx()
@@ -168,9 +178,9 @@ fun CircularProgressBar(
                         center.x,
                         center.y + 45.dp.toPx() / 3f,
                         Paint().apply {
-                            textSize = 38.sp.toPx()
+                            textSize = progressTextSize.toPx()
                             textAlign = Paint.Align.CENTER
-                            color = primaryColor.toArgb()
+                            color = progressTextColor.toArgb()
                             isFakeBoldText = true
                         }
                     )
