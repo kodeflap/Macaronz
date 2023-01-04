@@ -18,6 +18,24 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import kotlin.math.*
 
+/**
+ * Circular progress bar
+ *
+ * @param modifier
+ * @param radius
+ * @param minValue
+ * @param maxValue
+ * @param gapBetweenOuterLineAndInnerCircle
+ * @param ProgressSweepColor
+ * @param innerCircleStrokeColor
+ * @param innerCircleBackgroundColor
+ * @param outerLineColor
+ * @param progressTextColor
+ * @param progressTextSize
+ * @param onPositionChange
+ * @receiver
+ */
+
 @Composable
 fun CircularProgressBar(
     modifier: Modifier = Modifier,
@@ -42,16 +60,14 @@ fun CircularProgressBar(
     var anglePosition by remember {
         mutableStateOf(0f)
     }
-    var angleStartPosition by remember {
+    var dragStartAngle by remember {
         mutableStateOf(0f)
     }
-    var centerValue by remember {
+    var oldPositionValue by remember {
         mutableStateOf(minValue)
     }
 
-    Box(modifier) {
-        centerValue = minValue
-        position = minValue
+    Box(modifier = modifier) {
         Canvas(
             modifier = Modifier
                 .fillMaxSize()
@@ -64,39 +80,36 @@ fun CircularProgressBar(
 
                     detectDragGestures(
                         onDragStart = { offset ->
-                            angleStartPosition = -atan2(
+                            dragStartAngle = -atan2(
                                 x = center.y - offset.y,
                                 y = center.x - offset.x
                             ) * (180f / PI).toFloat()
-                            angleStartPosition = (angleStartPosition + 180f).mod(360f)
+                            dragStartAngle = (dragStartAngle + 180f).mod(360f)
+                        },
+                        onDrag = { change, _ ->
+                            var touchAngle = -atan2(
+                                x = center.y - change.position.y,
+                                y = center.x - change.position.x
+                            ) * (180f / PI).toFloat()
+
+                            touchAngle = (touchAngle + 180f).mod(360f)
+
+                            val currentAngle = oldPositionValue * 360f / (maxValue - minValue)
+                            anglePosition = touchAngle - currentAngle
+
+                            val lowerValue = currentAngle - (360f / (maxValue - minValue) * 5)
+                            val highValue = currentAngle + (360f / (maxValue - minValue) * 5)
+
+                            if (dragStartAngle in lowerValue..highValue) {
+                                position =
+                                    (oldPositionValue + (anglePosition / (360f / (maxValue - minValue))).roundToInt())
+                            }
                         },
                         onDragEnd = {
-                            centerValue = position
+                            oldPositionValue = position
                             onPositionChange(position)
                         }
-                    ) { change, _ ->
-                        var touchAngle = -atan2(
-                            x = center.y - change.position.y,
-                            y = center.x - change.position.x
-                        ) * (180f / PI).toFloat()
-                        touchAngle = (touchAngle + 180f).mod(360f)
-                        anglePosition = touchAngle - centerValue * 360f / maxValue
-
-                        if (angleStartPosition in
-                            (centerValue.toFloat() * 360 / maxValue - (360 / maxValue * 5))
-                            ..
-                            (centerValue.toFloat() * 360 / maxValue + (360 / maxValue * 5))
-                        ) {
-                            val dragFrom100 = (position == maxValue &&
-                                    (centerValue + (anglePosition / (360f / maxValue.toFloat()))).roundToInt() in (minValue..maxValue - 5))
-                            val dragFrom0 = (position == minValue &&
-                                    (centerValue + (anglePosition / (360f / maxValue.toFloat()))).roundToInt() in (minValue + 5..maxValue))
-                            if (!dragFrom0 && !dragFrom100) {
-                                position =
-                                    (centerValue + (anglePosition / (360f / maxValue.toFloat()))).roundToInt()
-                            }
-                        }
-                    }
+                    )
                 }
         ) {
             val width = size.width

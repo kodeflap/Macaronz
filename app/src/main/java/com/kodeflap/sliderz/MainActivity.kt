@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kodeflap.sliderz.ui.theme.Purple40
@@ -34,19 +35,19 @@ class MainActivity : ComponentActivity() {
                 ) {
                     CircularProgressBar(
                         modifier = Modifier
-                            .size(250.dp)
-                            .background(Color.Black),
-                        radius = 250f,
+                            .size(250.dp),
+                        radius = 260f,
                         minValue = 0,
                         maxValue = 100,
                         gapBetweenOuterLineAndInnerCircle = 15f,
-                        ProgressSweepColor = Brush.linearGradient(
+                        ProgressSweepColor = Brush.verticalGradient(
                             listOf(
-                                PurpleGrey80,
-                                Color.Transparent
-                            )
+                                Color.Blue,
+                                Color.LightGray.copy(1f)
+                            ),
+                            tileMode = TileMode.Decal
                         ),
-                        innerCircleStrokeColor = Purple40,
+                        innerCircleStrokeColor = Color.DarkGray,
                         innerCircleBackgroundColor = Brush.radialGradient(
                             listOf(
                                 PurpleGrey80.copy(0.4f),
@@ -56,7 +57,7 @@ class MainActivity : ComponentActivity() {
                         outerLineColor = Brush.linearGradient(
                             listOf(
                                 Purple80.copy(0.3f),
-                                Purple40.copy(0.3f)
+                                Purple80.copy(0.3f)
                             )
                         ),
                         progressTextColor = PurpleGrey80,

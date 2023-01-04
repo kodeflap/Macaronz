@@ -50,15 +50,13 @@ dependencies {
 }
 
 afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
+    android.libraryVariants.each { variant ->
+        publishing.publications.create(variant.name, MavenPublication) {
+            from components.findByName(variant.name)
 
-                groupId = 'com.github.sliderz'
-                artifactId = 'sliderz'
-                version = '0.1.0-alpha'
-            }
+            groupId = 'com.github.sliderz'
+            artifactId = 'sliderz'
+            version = '0.1.0-alpha'
         }
     }
 }
