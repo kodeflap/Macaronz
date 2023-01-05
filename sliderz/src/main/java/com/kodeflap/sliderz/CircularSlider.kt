@@ -174,7 +174,7 @@ fun CircularProgressBar(
                     pivot = start
                 ) {
                     drawLine(
-                        brush = color as Brush,
+                        brush = color,
                         start = start,
                         end = end,
                         strokeWidth = 2.dp.toPx()
@@ -212,10 +212,7 @@ fun CircularProgressBar(
                                 }
                             )
                         }
-                    } else {
-
                     }
-
                 }
             }
         }
