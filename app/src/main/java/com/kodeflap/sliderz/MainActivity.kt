@@ -8,14 +8,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kodeflap.sliderz.ui.theme.Purple40
 import com.kodeflap.sliderz.ui.theme.Purple80
 import com.kodeflap.sliderz.ui.theme.PurpleGrey80
 import com.kodeflap.sliderz.ui.theme.SliderzTheme
@@ -33,41 +33,54 @@ class MainActivity : ComponentActivity() {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    CircularProgressBar(
-                        modifier = Modifier
-                            .size(250.dp),
-                        radius = 260f,
-                        minValue = 0,
-                        maxValue = 100,
-                        gapBetweenOuterLineAndInnerCircle = 15f,
-                        ProgressSweepColor = Brush.verticalGradient(
-                            listOf(
-                                Color.Blue,
-                                Color.LightGray.copy(1f)
-                            ),
-                            tileMode = TileMode.Decal
-                        ),
-                        innerCircleStrokeColor = Color.DarkGray,
-                        innerCircleBackgroundColor = Brush.radialGradient(
-                            listOf(
-                                PurpleGrey80.copy(0.4f),
-                                Purple80.copy(0.20f)
-                            )
-                        ),
-                        outerLineColor = Brush.linearGradient(
-                            listOf(
-                                Purple80.copy(0.3f),
-                                Purple80.copy(0.3f)
-                            )
-                        ),
-                        progressTextColor = PurpleGrey80,
-                        progressTextSize = 38.sp,
-                        onPositionChange = {
-
-                        }
-                    )
+                    ProgressSamples()
                 }
             }
         }
+    }
+
+    @Preview
+    @Composable
+    fun ProgressSamples() {
+
+        val targetValue = 95
+
+        //////////////////////////circle progress bar///////////////////////////
+        CircularProgressBar(
+            modifier = Modifier
+                .size(250.dp),
+            radius = 260f,
+            number = targetValue.toFloat(),
+            maxValue = 100,
+            gapBetweenOuterLineAndInnerCircle = 15f,
+            progressSweepColor =
+            Brush.linearGradient(
+                listOf(
+                    Color.Blue,
+                    Color.LightGray.copy(1f)
+                )
+            ),
+            innerCircleStrokeColor = Color.DarkGray,
+            innerCircleBackgroundColor = Brush.radialGradient(
+                listOf(
+                    PurpleGrey80.copy(0.4f),
+                    Purple80.copy(0.20f)
+                )
+            ),
+            outerLineColor = Brush.linearGradient(
+                listOf(
+                    Purple80.copy(0.3f),
+                    Purple80.copy(0.1f)
+                )
+            ),
+            centerMainTextColor = PurpleGrey80,
+            centerMainTextSize = 70.sp,
+            centerSubTextColor = Purple80,
+            centerSubTextSize = 20.sp,
+            showCenterText = true,
+            showCenterSubText = true,
+            centerTextMainContent = "$targetValue%",
+            centerSubTextContent = "Completed",
+        )
     }
 }

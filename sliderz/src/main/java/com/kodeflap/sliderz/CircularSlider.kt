@@ -1,8 +1,9 @@
 package com.kodeflap.sliderz
 
 import android.graphics.Paint
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
@@ -13,104 +14,93 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import kotlin.math.*
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 /**
  * Circular progress bar
  *
  * @param modifier
  * @param radius
+ * @param number
  * @param minValue
  * @param maxValue
+ * @param animationDuration
+ * @param animationDelay
  * @param gapBetweenOuterLineAndInnerCircle
- * @param ProgressSweepColor
+ * @param progressSweepColor
  * @param innerCircleStrokeColor
  * @param innerCircleBackgroundColor
  * @param outerLineColor
- * @param progressTextColor
- * @param progressTextSize
- * @param onPositionChange
- * @receiver
+ * @param centerMainTextColor
+ * @param centerMainTextSize
+ * @param centerSubTextColor
+ * @param centerSubTextSize
+ * @param showCenterText
+ * @param showCenterSubText
+ * @param centerTextMainContent
+ * @param centerSubTextContent
  */
 
 @Composable
 fun CircularProgressBar(
     modifier: Modifier = Modifier,
     radius: Float,
-    minValue: Int,
+    number: Float,
+    minValue: Int = 0,
     maxValue: Int,
+    animationDuration: Int = 1000,
+    animationDelay: Int = 0,
     gapBetweenOuterLineAndInnerCircle: Float,
-    ProgressSweepColor: Brush,
+    progressSweepColor: Brush,
     innerCircleStrokeColor: Color,
     innerCircleBackgroundColor: Brush,
     outerLineColor: Brush,
-    progressTextColor: Color,
-    progressTextSize: TextUnit = TextUnit.Unspecified,
-    onPositionChange: (Int) -> Unit
+    centerMainTextColor: Color,
+    centerMainTextSize: TextUnit = TextUnit.Unspecified,
+    centerSubTextColor: Color,
+    centerSubTextSize: TextUnit = TextUnit.Unspecified,
+    showCenterText: Boolean,
+    showCenterSubText: Boolean,
+    centerTextMainContent: String,
+    centerSubTextContent: String
 ) {
     var center by remember {
         mutableStateOf(Offset.Zero)
     }
-    var position by remember {
-        mutableStateOf(minValue)
+
+    val centerValue by remember {
+        mutableStateOf(number)
     }
-    var anglePosition by remember {
-        mutableStateOf(0f)
+
+    var innerCircleData by remember {
+        mutableStateOf(-1f)
     }
-    var dragStartAngle by remember {
-        mutableStateOf(0f)
-    }
-    var oldPositionValue by remember {
-        mutableStateOf(minValue)
+
+    /** Animation for progress
+     *
+     *It defines the animation style for progress bar animation duration and delay
+    Launched Effect used to start animation
+     */
+    val progressAngle = animateFloatAsState(
+        targetValue = innerCircleData,
+        animationSpec = tween(
+            durationMillis = animationDuration,
+            delayMillis = animationDelay
+        )
+    )
+
+    LaunchedEffect(Unit) {
+        innerCircleData = number
     }
 
     Box(modifier = modifier) {
         Canvas(
             modifier = Modifier
                 .fillMaxSize()
-                .pointerInput(true) {
-
-                    /** Drag Gesture
-                     * The Drag gesture specifies the starting point and ending point
-                     *
-                     */
-
-                    detectDragGestures(
-                        onDragStart = { offset ->
-                            dragStartAngle = -atan2(
-                                x = center.y - offset.y,
-                                y = center.x - offset.x
-                            ) * (180f / PI).toFloat()
-                            dragStartAngle = (dragStartAngle + 180f).mod(360f)
-                        },
-                        onDrag = { change, _ ->
-                            var touchAngle = -atan2(
-                                x = center.y - change.position.y,
-                                y = center.x - change.position.x
-                            ) * (180f / PI).toFloat()
-
-                            touchAngle = (touchAngle + 180f).mod(360f)
-
-                            val currentAngle = oldPositionValue * 360f / (maxValue - minValue)
-                            anglePosition = touchAngle - currentAngle
-
-                            val lowerValue = currentAngle - (360f / (maxValue - minValue) * 5)
-                            val highValue = currentAngle + (360f / (maxValue - minValue) * 5)
-
-                            if (dragStartAngle in lowerValue..highValue) {
-                                position =
-                                    (oldPositionValue + (anglePosition / (360f / (maxValue - minValue))).roundToInt())
-                            }
-                        },
-                        onDragEnd = {
-                            oldPositionValue = position
-                            onPositionChange(position)
-                        }
-                    )
-                }
         ) {
             val width = size.width
             val height = size.height
@@ -118,7 +108,7 @@ fun CircularProgressBar(
             center = Offset(x = width / 2f, y = height / 2f)
 
             /** --------inner circle----------------
-             *
+             *It draws a inner circle you can customize according to the need
              */
             drawCircle(
                 brush = innerCircleBackgroundColor,
@@ -126,6 +116,9 @@ fun CircularProgressBar(
                 center = center
             )
 
+            /** Second circle
+             * The second outer circle
+             */
             drawCircle(
                 style = Stroke(width = thickness),
                 color = innerCircleStrokeColor,
@@ -133,13 +126,13 @@ fun CircularProgressBar(
                 center = center
             )
 
-            /** Progress Stroke color specification
-             *
+            /** Progress showing arc specification starts here
+             * An arc to show the progress by calculating the sweep angle
              */
             drawArc(
-                brush = ProgressSweepColor,
+                brush = progressSweepColor,
                 startAngle = 90f,
-                sweepAngle = (360f / maxValue) * position.toFloat(),
+                sweepAngle = (progressAngle.value / 100) * 360,
                 style = Stroke(
                     width = thickness,
                     cap = StrokeCap.Round
@@ -152,13 +145,17 @@ fun CircularProgressBar(
                 topLeft = Offset(
                     (width - radius * 2f) / 2f,
                     (height - radius * 2f) / 2f
-                )
+                ),
             )
-
+            /** Outline circle code
+             * val outerRadius is calculated
+             * from 0 to (maxValue - minValue) it draws the lines by calculating
+             * gap between x and y
+             */
             val outerRadius = radius + thickness / 2f
             for (i in 0..(maxValue - minValue)) {
                 val color =
-                    if (i < position - minValue) ProgressSweepColor else outerLineColor
+                    if (i < centerValue - minValue) progressSweepColor else outerLineColor
                 val angleInDegree = i * 360f / (maxValue - minValue).toFloat()
                 val angleInRad = angleInDegree * PI / 180f + PI / 2f
                 val yGap = cos(angleInDegree * PI / 180f) * gapBetweenOuterLineAndInnerCircle
@@ -177,28 +174,53 @@ fun CircularProgressBar(
                     pivot = start
                 ) {
                     drawLine(
-                        brush = color,
+                        brush = color as Brush,
                         start = start,
                         end = end,
                         strokeWidth = 2.dp.toPx()
                     )
                 }
             }
+            /** Main and sub text
+             * Used to show main text and sub text in the center of the circle
+             * Checks if the main content to shown or sub content or both
+             */
             drawContext.canvas.nativeCanvas.apply {
                 drawIntoCanvas {
-                    drawText(
-                        "$position %",
-                        center.x,
-                        center.y + 45.dp.toPx() / 3f,
-                        Paint().apply {
-                            textSize = progressTextSize.toPx()
-                            textAlign = Paint.Align.CENTER
-                            color = progressTextColor.toArgb()
-                            isFakeBoldText = true
+                    if (showCenterText) {
+                        drawText(
+                            centerTextMainContent,
+                            center.x,
+                            center.y + 45.dp.toPx() / 3f,
+                            Paint().apply {
+                                textSize = centerMainTextSize.toPx()
+                                textAlign = Paint.Align.CENTER
+                                color = centerMainTextColor.toArgb()
+                                isFakeBoldText = true
+                            }
+                        )
+                        if (showCenterSubText) {
+                            drawText(
+                                centerSubTextContent,
+                                center.x,
+                                center.y + 45.dp.toPx() / 1f,
+                                Paint().apply {
+                                    textSize = centerSubTextSize.toPx()
+                                    textAlign = Paint.Align.CENTER
+                                    color = centerSubTextColor.toArgb()
+                                    isFakeBoldText = true
+                                }
+                            )
                         }
-                    )
+                    } else {
+
+                    }
+
                 }
             }
         }
     }
 }
+
+
+
