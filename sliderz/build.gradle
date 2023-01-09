@@ -32,12 +32,15 @@ android {
     }
     buildFeatures {
         compose true
+        buildConfig false
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.1.1'
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
-
 dependencies {
 
     implementation 'androidx.activity:activity-compose:1.6.1'
@@ -56,7 +59,8 @@ afterEvaluate {
 
             groupId = 'com.github.sliderz'
             artifactId = 'sliderz'
-            version = '0.1.0-alpha'
+            version = '0.1.0'
         }
     }
 }
+apply from: "$rootDir/spotless/spotless.gradle"
