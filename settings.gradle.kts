@@ -13,6 +13,6 @@ dependencyResolutionManagement {
         mavenLocal()
     }
 }
-rootProject.name = "Sliderz"
-include ':app'
-include ':sliderz'
+
+include(":app")
+include(":sliderz")
