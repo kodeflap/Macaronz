@@ -25,9 +25,7 @@ package com.kodeflap.sliderz
 object Configuration {
     const val compileSdk = 33
     const val targetSdk = 33
-    const val minSdk = 17
-    const val minSdkCompose = 21
-    const val minSdkBenchmark = 23
+    const val minSdk = 21
     const val majorVersion = 0
     const val minorVersion = 1
     const val patchVersion = 0

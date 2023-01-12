@@ -1,24 +1,45 @@
+
+/*
+ * Copyright (c) 2023.
+ *
+ * Copyright [2023] [kodeflap] .All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *
+ *
+ */
 import com.kodeflap.sliderz.Configuration
 
+buildscript {
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
+    }
+}
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id(libs.plugins.android.library.get().pluginId)
+    id(libs.plugins.android.application.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
 }
-
-rootProject.extra.apply {
-    set("PUBLISH_GROUP_ID", Configuration.artifactGroup)
-    set("PUBLISH_ARTIFACT_ID", "sliderz")
-    set("PUBLISH_VERSION", rootProject.extra.get("rootVersionName"))
-}
-
-apply(from ="${rootDir}/scripts/publish-module.gradle")
 
 android {
     compileSdk = Configuration.compileSdk
     defaultConfig {
-        minSdk = Configuration.minSdkCompose
+        applicationId = "com.kodeflap.sliderz"
+        minSdk = Configuration.minSdk
         targetSdk = Configuration.targetSdk
+        versionCode = Configuration.versionCode
+        versionName = Configuration.versionName
     }
 
     buildFeatures {
@@ -34,25 +55,28 @@ android {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
         }
     }
-
-    lint {
-        abortOnError = false
+    buildTypes {
+        create("benchmark") {
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
+        }
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.freeCompilerArgs += listOf(
-        "-Xexplicit-api=strict",
-        "-opt-in=com.skydoves.balloon.animations.InternalBalloonApi",
-    )
-}
-
 dependencies {
-    api(project(":sliderz"))
+    implementation(project(":cloudy"))
 
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.runtime)
+    implementation(libs.landscapist.glide)
+
+    implementation(libs.material)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.lifecycle)
+
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.compose.constraintlayout)
 }

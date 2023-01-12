@@ -20,27 +20,27 @@
  *
  */
 
-@file:Suppress("UnstableApiUsage")
+package com.kodeflap.base
 
-include(":base")
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
 
+import org.junit.Test
+import org.junit.runner.RunWith
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        maven(url = "https://plugins.gradle.org/m2/")
+import org.junit.Assert.*
+
+/**
+ * Instrumented test, which will execute on an Android device.
+ *
+ * See [testing documentation](http://d.android.com/tools/testing).
+ */
+@RunWith(AndroidJUnit4::class)
+class ExampleInstrumentedTest {
+    @Test
+    fun useAppContext() {
+        // Context of the app under test.
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        assertEquals("com.kodeflap.base", appContext.packageName)
     }
 }
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven(url = "https://plugins.gradle.org/m2/")
-    }
-}
-
-rootProject.name = "Sliderz"
-include(":app")
-include(":sliderz")
