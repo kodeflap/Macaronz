@@ -22,6 +22,9 @@
 
 @file:Suppress("UnstableApiUsage")
 
+include(":benchmark")
+
+
 include(":base")
 
 

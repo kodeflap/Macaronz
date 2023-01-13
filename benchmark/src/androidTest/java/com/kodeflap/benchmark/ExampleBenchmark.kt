@@ -20,27 +20,32 @@
  *
  */
 
-package com.kodeflap.base
+package com.kodeflap.benchmark
 
-import androidx.test.platform.app.InstrumentationRegistry
+import android.util.Log
+import androidx.benchmark.junit4.BenchmarkRule
+import androidx.benchmark.junit4.measureRepeated
 import androidx.test.ext.junit.runners.AndroidJUnit4
-
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import org.junit.Assert.*
-
 /**
- * Instrumented test, which will execute on an Android device.
+ * Benchmark, which will execute on an Android device.
  *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * The body of [BenchmarkRule.measureRepeated] is measured in a loop, and Studio will
+ * output the result. Modify your code to see how it affects performance.
  */
 @RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
+class ExampleBenchmark {
+
+    @get:Rule
+    val benchmarkRule = BenchmarkRule()
+
     @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.kodeflap.base", appContext.packageName)
+    fun log() {
+        benchmarkRule.measureRepeated {
+            Log.d("LogBenchmark", "the cost of writing this log method will be measured")
+        }
     }
 }

@@ -24,6 +24,7 @@ import com.kodeflap.sliderz.Configuration
 buildscript {
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
+        classpath("androidx.benchmark:benchmark-gradle-plugin:1.1.1")
     }
 }
 @Suppress("DSL_SCOPE_VIOLATION")
