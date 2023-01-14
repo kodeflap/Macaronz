@@ -1,6 +1,6 @@
-import com.kodeflap.sliderz.Configuration
 
 // Create variables with empty default values
+
 ext["ossrhUsername"] = ''
 ext["ossrhPassword"] = ''
 ext["sonatypeStagingProfileId"] = ''

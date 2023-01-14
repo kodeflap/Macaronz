@@ -50,8 +50,8 @@ afterEvaluate {
 
                 pom {
                     name = PUBLISH_ARTIFACT_ID
-                    description = 'Modernized and sophisticated tooltips, fully customizable with an arrow and animations for Android.'
-                    url = 'https://github.com/skydoves/balloon'
+                    description = 'Jetpack Compose android customizable slider.'
+                    url = 'https://github.com/kodeflap/Sliderz'
                     licenses {
                         license {
                             name = 'The Apache Software License, Version 2.0'
@@ -60,16 +60,16 @@ afterEvaluate {
                     }
                     developers {
                         developer {
-                            id = 'skydoves'
-                            name = 'Jaewoong Eum'
-                            email = "skydoves2@gmail.com"
-                            url = "https://github.com/skydoves"
+                            id = 'kodeflap'
+                            name = 'Pooja'
+                            email = "kodeflap@gmail.com"
+                            url = "https://github.com/kodeflap"
                         }
                     }
                     scm {
-                        connection = 'scm:git:github.com/skydoves/balloon.git'
-                        developerConnection = 'scm:git:ssh://github.com/skydoves/balloon.git'
-                        url = 'https://github.com/skydoves/balloon/tree/main'
+                        connection = 'scm:git:github.com/kodeflap/Sliderz.git'
+                        developerConnection = 'scm:git:ssh://github.com/kodeflap/Sliderz.git'
+                        url = 'https://github.com/kodeflap/Sliderz/tree/main'
                     }
                 }
             }
