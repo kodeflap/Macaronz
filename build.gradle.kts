@@ -19,65 +19,59 @@
  *
  *
  */
-import com.kodeflap.sliderz.Configuration
-
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
-        classpath("androidx.benchmark:benchmark-gradle-plugin:1.1.1")
-    }
-}
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id(libs.plugins.android.application.get().pluginId)
-    id(libs.plugins.kotlin.android.get().pluginId)
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.nexusPlugin)
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.kotlinBinaryCompatibilityValidator)
 }
 
-android {
-    compileSdk = Configuration.compileSdk
-    defaultConfig {
-        applicationId = "com.kodeflap.sliderz"
-        minSdk = Configuration.minSdk
-        targetSdk = Configuration.targetSdk
-        versionCode = Configuration.versionCode
-        versionName = Configuration.versionName
-    }
+apply(from ="${rootDir}/scripts/publish-root.gradle")
 
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
-    }
-
-    packagingOptions {
-        resources {
-            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
-        }
-    }
-    buildTypes {
-        create("benchmark") {
-            signingConfig = signingConfigs.getByName("debug")
-            matchingFallbacks += listOf("release")
-            isDebuggable = false
-        }
-    }
+apiValidation {
+    ignoredProjects.addAll(listOf("app"))
 }
 
-dependencies {
-    implementation(project(":cloudy"))
+subprojects {
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+        kotlinOptions.freeCompilerArgs += listOf(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+                    project.buildDir.absolutePath + "/compose_metrics"
+        )
+        kotlinOptions.freeCompilerArgs += listOf(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+                    project.buildDir.absolutePath + "/compose_metrics"
+        )
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 
-    implementation(libs.landscapist.glide)
-
-    implementation(libs.material)
-    implementation(libs.androidx.activity.compose)
-
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.runtime)
-    implementation(libs.androidx.compose.constraintlayout)
+    apply(plugin = rootProject.libs.plugins.spotless.get().pluginId)
+    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+        kotlin {
+            target("**/*.kt")
+            targetExclude("$buildDir/**/*.kt")
+            ktlint().setUseExperimental(true).editorConfigOverride(
+                mapOf(
+                    "indent_size" to "2",
+                    "continuation_indent_size" to "2"
+                )
+            )
+            licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+        format("kts") {
+            target("**/*.kts")
+            targetExclude("$buildDir/**/*.kts")
+            licenseHeaderFile(rootProject.file("spotless/copyright.kt"), "(^(?![\\/ ]\\*).*$)")
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+    }
 }
