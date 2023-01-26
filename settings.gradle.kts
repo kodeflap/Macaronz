@@ -1,17 +1,26 @@
+@file:Suppress("UnstableApiUsage")
+
+include(":sliderzsample")
+
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven(url = "https://plugins.gradle.org/m2/")
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://plugins.gradle.org/m2/")
     }
 }
+
 rootProject.name = "Sliderz"
-include ':app'
-include ':sliderz'
+include(":app")
+include(":sliderz")
+include(":benchmark")
+
