@@ -7,9 +7,9 @@ plugins {
 
 android {
     namespace = "com.kodeflap.benchmark"
-    compileSdk = 23
+  compileSdk = 31
 
-    compileOptions {
+  compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
