@@ -1,5 +1,5 @@
 /*
- * Copyright [2023] [kodeflap]
+ * Copyright (c) $[today] [name of copyright owner]
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,29 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kodeflap.sliderz.benchmark
 
 import androidx.benchmark.macro.ExperimentalBaselineProfilesApi
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import org.junit.Rule
 import org.junit.Test
-
 @ExperimentalBaselineProfilesApi
 class BaselineProfileGenerator {
-    @get:Rule
-    val baselineProfileRule = BaselineProfileRule()
+  @get:Rule
+  val baselineProfileRule = BaselineProfileRule()
 
-    @Test
-    fun startup() =
-        baselineProfileRule.collectBaselineProfile(
-            packageName = targetPackage
-        ) {
-            pressHome()
-            // This block defines the app's critical user journey. Here we are interested in
-            // optimizing for app startup. But you can also navigate and scroll
-            // through your most important UI.
-            startActivityAndWait()
-            device.waitForIdle()
-        }
+  @Test
+  fun startup() =
+    baselineProfileRule.collectBaselineProfile(
+      packageName = targetPackage
+    ) {
+      pressHome()
+      // This block defines the app's critical user journey. Here we are interested in
+      // optimizing for app startup. But you can also navigate and scroll
+      // through your most important UI.
+      startActivityAndWait()
+      device.waitForIdle()
+    }
 }
