@@ -1,5 +1,5 @@
 /*
- * Copyright [2023] [kodeflap]
+ * Copyright (c) $[today] [name of copyright owner]
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kodeflap.sliderz
 
 import android.graphics.Paint
@@ -22,16 +21,25 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.* // ktlint-disable no-wildcard-imports
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.Transparent
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,6 +47,34 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
+/**
+ * Sliderz circular progress bar
+ *
+ * @param modifier
+ * @param radius
+ * @param number
+ * @param minValue
+ * @param maxValue
+ * @param animationDuration
+ * @param animationDelay
+ * @param gapBetweenOuterLineAndInnerCircle
+ * @param progressSweepColor
+ * @param innerCircleStrokeColor
+ * @param innerCircleBackgroundColor
+ * @param outerLineColor
+ * @param centerMainTextColor
+ * @param centerMainTextSize
+ * @param centerSubTextColor
+ * @param centerSubTextSize
+ * @param showCenterText
+ * @param showCenterSubText
+ * @param centerTextMainContent
+ * @param centerSubTextContent
+ * @param marker
+ * @param thickness
+ * @param showCenterCircle
+ * @param showProgressCircleBackground
+ */
 @Composable
 public fun SliderzCircularProgressBar(
   modifier: Modifier = Modifier,
@@ -216,7 +252,6 @@ public fun SliderzCircularProgressBar(
             )
           }
         }
-      } else {
       }
       /** Main and sub text
        * Used to show main text and sub text in the center of the circle

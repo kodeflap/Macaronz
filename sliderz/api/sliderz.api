@@ -1,0 +1,4 @@
+public final class com/kodeflap/sliderz/SliderzCircularProgressBarKt {
+	public static final fun SliderzCircularProgressBar-pbiguL8 (Landroidx/compose/ui/Modifier;FFIIIIFLandroidx/compose/ui/graphics/Brush;JLandroidx/compose/ui/graphics/Brush;Landroidx/compose/ui/graphics/Brush;JJJJZZLjava/lang/String;Ljava/lang/String;ZFZZLandroidx/compose/runtime/Composer;IIII)V
+}
+
