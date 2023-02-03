@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
   @Preview(showBackground = true)
   @Composable
   fun ProgressSamples() {
-    val targetValue = 95
+    val targetValue = 67
 
     // ////////////////////////circle progress bar///////////////////////////
     SliderzCircularProgressBar(
@@ -73,7 +73,8 @@ class MainActivity : ComponentActivity() {
       ),
       centerSubTextColor = PurpleGrey80,
       centerTextMainContent = "$targetValue%",
-      centerSubTextContent = "Completed"
+      centerSubTextContent = "Completed",
+      outerLineStrokeWidth = 3.dp
     )
   }
 }

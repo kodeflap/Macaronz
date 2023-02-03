@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -74,7 +75,10 @@ import kotlin.math.sin
  * @param thickness
  * @param showCenterCircle
  * @param showProgressCircleBackground
+ * @param outerLineStrokeWidth
+ * @param strokeCap
  */
+
 @Composable
 public fun SliderzCircularProgressBar(
   modifier: Modifier = Modifier,
@@ -115,7 +119,9 @@ public fun SliderzCircularProgressBar(
   marker: Boolean = true,
   thickness: Float = 20f,
   showCenterCircle: Boolean = true,
-  showProgressCircleBackground: Boolean = true
+  showProgressCircleBackground: Boolean = true,
+  outerLineStrokeWidth: Dp = 0.dp,
+  strokeCap: StrokeCap = StrokeCap.Round
 ) {
   var center by remember {
     mutableStateOf(Offset.Zero)
@@ -134,7 +140,7 @@ public fun SliderzCircularProgressBar(
    *It defines the animation style for progress bar animation duration and delay
    Launched Effect used to start animation
    */
-  val progressAngle = animateFloatAsState(
+  val progressAngle by animateFloatAsState(
     targetValue = innerCircleData,
     animationSpec = tween(
       durationMillis = animationDuration,
@@ -193,13 +199,14 @@ public fun SliderzCircularProgressBar(
       /** Progress showing arc specification starts here
        * An arc to show the progress by calculating the sweep angle
        */
+      val angle = progressAngle * 360f / (maxValue - minValue).toFloat()
       drawArc(
         brush = progressSweepColor,
         startAngle = 90f,
-        sweepAngle = progressAngle.value * 360f / (maxValue - minValue).toFloat(),
+        sweepAngle = angle,
         style = Stroke(
           width = thickness,
-          cap = StrokeCap.Round
+          cap = strokeCap
         ),
         useCenter = false,
         size = Size(
@@ -211,6 +218,7 @@ public fun SliderzCircularProgressBar(
           (height - radius * 2f) / 2f
         )
       )
+
       /** Outline circle code
        * val outerRadius is calculated
        * from 0 to (maxValue - minValue) it draws the lines by calculating
@@ -248,7 +256,7 @@ public fun SliderzCircularProgressBar(
               brush = color,
               start = start,
               end = end,
-              strokeWidth = 2.dp.toPx()
+              strokeWidth = outerLineStrokeWidth.toPx()
             )
           }
         }

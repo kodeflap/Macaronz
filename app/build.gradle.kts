@@ -52,6 +52,7 @@ android {
       isDebuggable = false
     }
   }
+    namespace = "com.kodeflap.sliderz"
 }
 
 dependencies {
