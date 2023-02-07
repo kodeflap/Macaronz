@@ -50,6 +50,7 @@ android {
       excludes.add("/META-INF/{AL2.0,LGPL2.1}")
     }
   }
+  namespace = "com.kodeflap.sliderz"
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
