@@ -179,10 +179,6 @@ public fun SliderzCircularProgressBar(
       /** Second circle
        * The second outer circle
        */
-
-      /** Second circle
-       * The second outer circle
-       */
       if (showProgressCircleBackground) {
         drawCircle(
           style = Stroke(width = thickness),
@@ -249,6 +245,7 @@ public fun SliderzCircularProgressBar(
             y = (outerRadius * sin(angleInRad) + thickness + center.y + yGap).toFloat()
           )
           rotate(
+
             angleInDegree,
             pivot = start
           ) {
