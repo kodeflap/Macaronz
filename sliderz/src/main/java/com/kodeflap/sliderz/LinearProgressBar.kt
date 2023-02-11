@@ -16,14 +16,21 @@
 
 package com.kodeflap.sliderz
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import com.kodeflap.sliderz.stripe.StripeStyle
 
 
 @Composable
@@ -31,13 +38,29 @@ public fun LinearProgressBar(
   modifier: Modifier = Modifier,
   value: Float,
   animationColor: List<Color>,
-  borderWidth: Double,
-  borderColor: Color,
-  borderRadius: Double,
-  sweepDirection: Float,
+  borderWidth: Float,
+  borderColor: Color = Color.Cyan,
+  borderRadius: Float,
   shape: Shape = RoundedCornerShape(16.dp)
 ) {
-  Box(modifier = modifier) {
-
+ Column(
+    modifier = modifier
+      .clip(shape)
+      .background(borderColor)
+      .fillMaxHeight()
+  ) {
+    Box(
+      modifier = modifier
+        .clip(shape)
+        .size(width = 30.dp, height = 1000.dp)
+        .background(
+          StripeStyle(
+            stripeColor = Color.Blue,
+            stripeThickness = 6.dp,
+            stripeBackground = Color.Magenta,
+            stripeShadowColor = Color.Blue
+          )
+        )
+    )
   }
 }
