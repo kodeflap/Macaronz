@@ -60,21 +60,27 @@ class MainActivity : ComponentActivity() {
     val targetValue = 67
 
     // ////////////////////////circle progress bar///////////////////////////
-    SliderzCircularProgressBar(
-      modifier = Modifier
-        .size(250.dp),
-      radius = 260f,
-      number = targetValue.toFloat(),
-      innerCircleBackgroundColor = Brush.radialGradient(
-        listOf(
-          PurpleGrey80.copy(0.40f),
-          PurpleGrey40.copy(0.30f)
-        )
-      ),
-      centerSubTextColor = PurpleGrey80,
-      centerTextMainContent = "$targetValue%",
-      centerSubTextContent = "Completed",
-      outerLineStrokeWidth = 3.dp
+//    SliderzCircularProgressBar(
+//      modifier = Modifier
+//        .size(250.dp),
+//      radius = 260f,
+//      number = targetValue.toFloat(),
+//      innerCircleBackgroundColor = Brush.radialGradient(
+//        listOf(
+//          PurpleGrey80.copy(0.40f),
+//          PurpleGrey40.copy(0.30f)
+//        )
+//      ),
+//      centerSubTextColor = PurpleGrey80,
+//      centerTextMainContent = "$targetValue%",
+//      centerSubTextContent = "Completed",
+//      outerLineStrokeWidth = 3.dp
+//    )
+    LinearProgressBar(
+      value = 50f,
+      animationColor = listOf(PurpleGrey40, PurpleGrey80),
+      borderWidth = 30f,
+      borderRadius = 20f ,
     )
   }
 }
