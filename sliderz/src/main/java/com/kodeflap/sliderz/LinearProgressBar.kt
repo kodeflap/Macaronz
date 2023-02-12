@@ -1,5 +1,5 @@
 /*
- * Copyright [2023] [kodeflap]
+ * Copyright (c) $[today] [name of copyright owner]
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kodeflap.sliderz
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,7 +30,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.kodeflap.sliderz.stripe.StripeStyle
 
-
 @Composable
 public fun LinearProgressBar(
   modifier: Modifier = Modifier,
@@ -43,7 +40,7 @@ public fun LinearProgressBar(
   borderRadius: Float,
   shape: Shape = RoundedCornerShape(16.dp)
 ) {
- Column(
+  Column(
     modifier = modifier
       .clip(shape)
       .background(borderColor)

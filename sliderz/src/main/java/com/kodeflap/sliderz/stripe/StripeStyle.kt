@@ -1,5 +1,5 @@
 /*
- * Copyright [2023] [kodeflap]
+ * Copyright (c) $[today] [name of copyright owner]
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kodeflap.sliderz.stripe
 
 import androidx.compose.runtime.Composable
@@ -29,7 +28,7 @@ public fun StripeStyle(
   stripeColor: Color,
   stripeThickness: Dp,
   stripeBackground: Color,
-  stripeShadowColor: Color,
+  stripeShadowColor: Color
 ): Brush {
   val stripeWidth = with(LocalDensity.current) {
     stripeThickness.toPx()
