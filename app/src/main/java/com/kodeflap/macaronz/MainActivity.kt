@@ -29,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.LinearGradientShader
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kodeflap.Macaronz.CircularProgress
@@ -38,12 +37,11 @@ import com.kodeflap.macaronz.ui.theme.MacaronzTheme
 import com.kodeflap.macaronz.ui.theme.PurpleGrey40
 import com.kodeflap.macaronz.ui.theme.PurpleGrey80
 
-
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      MacaronzTheme{
+      MacaronzTheme {
         // A surface container using the 'background' color from the theme
         Column(
           modifier = Modifier
@@ -62,16 +60,17 @@ class MainActivity : ComponentActivity() {
   @Composable
   fun ProgressSamples() {
     val targetValue = 67
-    BoxWithConstraints() {
+    BoxWithConstraints {
       // ////////////////////////circle progress bar///////////////////////////
-      Column() {
+      Column {
         CircularProgress(
           modifier = Modifier.size(100.dp),
           radius = 260f,
           number = targetValue.toFloat(),
           innerCircleBackgroundColor = Brush.radialGradient(
             listOf(
-              PurpleGrey80.copy(0.40f), PurpleGrey40.copy(0.30f)
+              PurpleGrey80.copy(0.40f),
+              PurpleGrey40.copy(0.30f)
             )
           ),
           centerSubTextColor = PurpleGrey80,
@@ -80,13 +79,13 @@ class MainActivity : ComponentActivity() {
           outerLineStrokeWidth = 3.dp
         )
       }
-      Column() {
-        /////////////////////Linear Progress Bar///////////////////////////
+      Column {
+        // ///////////////////Linear Progress Bar///////////////////////////
         LinearProgress(
-          value = 50f,
+          value = 50f
         )
-        Column(){
-       //   LinearGradientShader()
+        Column {
+          //   LinearGradientShader()
         }
       }
     }

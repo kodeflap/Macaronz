@@ -139,7 +139,7 @@ public fun CircularProgress(
   /** Animation for progress
    *
    *It defines the animation style for progress bar animation duration and delay
-  Launched Effect used to start animation
+   Launched Effect used to start animation
    */
   val progressAngle by animateFloatAsState(
     targetValue = innerCircleData,

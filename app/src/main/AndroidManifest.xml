@@ -25,7 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Macaronz"
-        tools:ignore="AllowBackup">
+        tools:ignore="AllowBackup,DataExtractionRules">
 
         <profileable
             android:shell="true"
