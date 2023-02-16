@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.kodeflap.sliderz
+package com.kodeflap.macaronz
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -28,19 +29,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.LinearGradientShader
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kodeflap.sliderz.ui.theme.PurpleGrey40
-import com.kodeflap.sliderz.ui.theme.PurpleGrey80
-import com.kodeflap.sliderz.ui.theme.SliderzTheme
+import com.kodeflap.Macaronz.CircularProgress
+import com.kodeflap.Macaronz.LinearProgress
+import com.kodeflap.macaronz.ui.theme.MacaronzTheme
+import com.kodeflap.macaronz.ui.theme.PurpleGrey40
+import com.kodeflap.macaronz.ui.theme.PurpleGrey80
+
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      SliderzTheme {
+      MacaronzTheme{
         // A surface container using the 'background' color from the theme
-
         Column(
           modifier = Modifier
             .fillMaxSize()
@@ -58,29 +62,33 @@ class MainActivity : ComponentActivity() {
   @Composable
   fun ProgressSamples() {
     val targetValue = 67
-
-    // ////////////////////////circle progress bar///////////////////////////
-//    SliderzCircularProgressBar(
-//      modifier = Modifier
-//        .size(250.dp),
-//      radius = 260f,
-//      number = targetValue.toFloat(),
-//      innerCircleBackgroundColor = Brush.radialGradient(
-//        listOf(
-//          PurpleGrey80.copy(0.40f),
-//          PurpleGrey40.copy(0.30f)
-//        )
-//      ),
-//      centerSubTextColor = PurpleGrey80,
-//      centerTextMainContent = "$targetValue%",
-//      centerSubTextContent = "Completed",
-//      outerLineStrokeWidth = 3.dp
-//    )
-    LinearProgressBar(
-      value = 50f,
-      animationColor = listOf(PurpleGrey40, PurpleGrey80),
-      borderWidth = 30f,
-      borderRadius = 20f ,
-    )
+    BoxWithConstraints() {
+      // ////////////////////////circle progress bar///////////////////////////
+      Column() {
+        CircularProgress(
+          modifier = Modifier.size(100.dp),
+          radius = 260f,
+          number = targetValue.toFloat(),
+          innerCircleBackgroundColor = Brush.radialGradient(
+            listOf(
+              PurpleGrey80.copy(0.40f), PurpleGrey40.copy(0.30f)
+            )
+          ),
+          centerSubTextColor = PurpleGrey80,
+          centerTextMainContent = "$targetValue%",
+          centerSubTextContent = "Completed",
+          outerLineStrokeWidth = 3.dp
+        )
+      }
+      Column() {
+        /////////////////////Linear Progress Bar///////////////////////////
+        LinearProgress(
+          value = 50f,
+        )
+        Column(){
+       //   LinearGradientShader()
+        }
+      }
+    }
   }
 }

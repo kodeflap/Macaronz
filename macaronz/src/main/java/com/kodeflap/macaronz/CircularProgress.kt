@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.kodeflap.sliderz
+package com.kodeflap.Macaronz
 
 import android.graphics.Paint
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.Transparent
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -49,9 +50,9 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 /**
- * Sliderz circular progress bar
+ * Sliderz circular progress bar is a custom circular progress bar
  *
- * @param modifier
+ * @param modifier for specifying the additional attribute for the circular progress bar
  * @param radius
  * @param number
  * @param minValue
@@ -80,7 +81,7 @@ import kotlin.math.sin
  */
 
 @Composable
-public fun SliderzCircularProgressBar(
+public fun CircularProgress(
   modifier: Modifier = Modifier,
   radius: Float,
   number: Float,
@@ -138,7 +139,7 @@ public fun SliderzCircularProgressBar(
   /** Animation for progress
    *
    *It defines the animation style for progress bar animation duration and delay
-   Launched Effect used to start animation
+  Launched Effect used to start animation
    */
   val progressAngle by animateFloatAsState(
     targetValue = innerCircleData,
@@ -152,7 +153,7 @@ public fun SliderzCircularProgressBar(
     innerCircleData = number
   }
 
-  Box(modifier = modifier) {
+  BoxWithConstraints(modifier = modifier) {
     Canvas(
       modifier = Modifier
         .fillMaxSize()
@@ -160,6 +161,14 @@ public fun SliderzCircularProgressBar(
       val width = size.width
       val height = size.height
       center = Offset(x = width / 2f, y = height / 2f)
+
+      /** --------inner circle----------------
+       *It draws a inner circle you can customize according to the need
+       */
+
+      /** --------inner circle----------------
+       *It draws a inner circle you can customize according to the need
+       */
 
       /** --------inner circle----------------
        *It draws a inner circle you can customize according to the need
@@ -179,6 +188,10 @@ public fun SliderzCircularProgressBar(
       /** Second circle
        * The second outer circle
        */
+
+      /** Second circle
+       * The second outer circle
+       */
       if (showProgressCircleBackground) {
         drawCircle(
           style = Stroke(width = thickness),
@@ -192,6 +205,13 @@ public fun SliderzCircularProgressBar(
        * An arc to show the progress by calculating the sweep angle
        */
 
+      /** Progress showing arc specification starts here
+       * An arc to show the progress by calculating the sweep angle
+       */
+
+      /** Progress showing arc specification starts here
+       * An arc to show the progress by calculating the sweep angle
+       */
       /** Progress showing arc specification starts here
        * An arc to show the progress by calculating the sweep angle
        */
@@ -220,17 +240,29 @@ public fun SliderzCircularProgressBar(
        * from 0 to (maxValue - minValue) it draws the lines by calculating
        * gap between x and y
        */
+
+      /** Outline circle code
+       * val outerRadius is calculated
+       * from 0 to (maxValue - minValue) it draws the lines by calculating
+       * gap between x and y
+       */
       /** Outline circle code
        * val outerRadius is calculated
        * from 0 to (maxValue - minValue) it draws the lines by calculating
        * gap between x and y
        */
 
-      if (marker) {
-        val outerRadius = radius + thickness / 2f
-        for (i in 0..(maxValue - minValue)) {
-          val color =
-            if (i < centerValue - minValue) progressSweepColor else outerLineColor
+      /** Outline circle code
+       * val outerRadius is calculated
+       * from 0 to (maxValue - minValue) it draws the lines by calculating
+       * gap between x and y
+       */
+
+      val outerRadius = radius + thickness / 2f
+      for (i in 0..(maxValue - minValue)) {
+        val color =
+          if (i < centerValue - minValue) progressSweepColor else outerLineColor
+        if (marker) {
           val angleInDegree = i * 360f / (maxValue - minValue).toFloat()
           val angleInRad = angleInDegree * PI / 180f + PI / 2f
           val yGap = cos(angleInDegree * PI / 180f) * gapBetweenOuterLineAndInnerCircle
@@ -253,11 +285,20 @@ public fun SliderzCircularProgressBar(
               brush = color,
               start = start,
               end = end,
+              pathEffect = PathEffect.cornerPathEffect(50f),
               strokeWidth = outerLineStrokeWidth.toPx()
             )
           }
         }
       }
+      /** Main and sub text
+       * Used to show main text and sub text in the center of the circle
+       * Checks if the main content to shown or sub content or both
+       */
+      /** Main and sub text
+       * Used to show main text and sub text in the center of the circle
+       * Checks if the main content to shown or sub content or both
+       */
       /** Main and sub text
        * Used to show main text and sub text in the center of the circle
        * Checks if the main content to shown or sub content or both
@@ -284,7 +325,7 @@ public fun SliderzCircularProgressBar(
               drawText(
                 centerSubTextContent,
                 center.x,
-                center.y + 45.dp.toPx() / 1f,
+                center.y + 45.dp.toPx() / 2f,
                 Paint().apply {
                   textSize = centerSubTextSize.toPx()
                   textAlign = Paint.Align.CENTER

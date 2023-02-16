@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.kodeflap.sliderz.ui.theme
+package com.kodeflap.macaronz.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -53,7 +53,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun SliderzTheme(
+fun MacaronzTheme(
   darkTheme: Boolean = isSystemInDarkTheme(),
   // Dynamic color is available on Android 12+
   dynamicColor: Boolean = true,

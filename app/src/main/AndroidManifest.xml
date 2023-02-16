@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Sliderz"
+        android:theme="@style/Theme.Macaronz"
         tools:ignore="AllowBackup">
 
         <profileable
@@ -32,7 +32,7 @@
             tools:targetApi="29"/>
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.kodeflap.macaronz.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

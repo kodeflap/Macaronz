@@ -13,26 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.kodeflap.sliderz.stripe
+package com.kodeflap.Macaronz.stripe
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
+/*
 
-@Composable
-public fun StripeStyle(
+ */
+
+public fun Density.StripeStyle(
   stripeColor: Color,
   stripeThickness: Dp,
-  stripeBackground: Color,
-  stripeShadowColor: Color
+  stripeBackground: Color
 ): Brush {
-  val stripeWidth = with(LocalDensity.current) {
-    stripeThickness.toPx()
-  }
+  val stripeWidth = stripeThickness.toPx()
   val brushSize = stripeWidth * 2
   val stripeStart = stripeWidth / brushSize
   return Brush.linearGradient(

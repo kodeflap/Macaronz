@@ -32,7 +32,7 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = "Sliderz"
+rootProject.name = "Macaronz"
 include(":app")
-include(":sliderz")
+include(":macaronz")
 include(":benchmark")

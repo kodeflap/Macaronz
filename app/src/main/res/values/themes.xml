@@ -17,5 +17,5 @@
 
 <resources>
 
-    <style name="Theme.Sliderz" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Macaronz" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>

@@ -25,7 +25,7 @@ plugins {
 android {
   compileSdk = Configuration.compileSdk
   defaultConfig {
-    applicationId = "com.kodeflap.sliderz"
+    applicationId = "com.kodeflap.macaronz"
     minSdk = Configuration.minSdk
     targetSdk = Configuration.targetSdk
     versionCode = Configuration.versionCode
@@ -67,6 +67,5 @@ dependencies {
   implementation(libs.androidx.compose.foundation)
   implementation(libs.androidx.compose.runtime)
   implementation(libs.androidx.compose.constraintlayout)
-
-  implementation(project(":sliderz"))
+    implementation(project(":macaronz"))
 }
