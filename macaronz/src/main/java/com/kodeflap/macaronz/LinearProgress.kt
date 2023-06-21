@@ -19,6 +19,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -63,7 +64,7 @@ public fun LinearProgress(
   Box(modifier = modifier) {
     Canvas(
       modifier = Modifier
-        .size(100.dp)
+        .fillMaxWidth()
     ) {
       val width = size.width
       val height = size.height

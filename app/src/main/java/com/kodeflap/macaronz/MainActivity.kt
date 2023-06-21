@@ -20,11 +20,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -60,33 +64,33 @@ class MainActivity : ComponentActivity() {
   @Composable
   fun ProgressSamples() {
     val targetValue = 67
-    BoxWithConstraints {
+    val lazyGridState by remember {
+      mutableStateOf(2)
+    }
+
       // ////////////////////////circle progress bar///////////////////////////
-      Column {
-        CircularProgress(
-          modifier = Modifier.size(100.dp),
-          radius = 260f,
-          number = targetValue.toFloat(),
-          innerCircleBackgroundColor = Brush.radialGradient(
-            listOf(
-              PurpleGrey80.copy(0.40f),
-              PurpleGrey40.copy(0.30f)
-            )
-          ),
+
+          CircularProgress(
+            modifier = Modifier.size(100.dp),
+            radius = 260f,
+            number = targetValue.toFloat(),
+            innerCircleBackgroundColor = Brush.radialGradient(
+              listOf(
+                PurpleGrey80.copy(0.40f),
+                PurpleGrey40.copy(0.30f)
+              )
+            ),
           centerSubTextColor = PurpleGrey80,
           centerTextMainContent = "$targetValue%",
           centerSubTextContent = "Completed",
           outerLineStrokeWidth = 3.dp
         )
       }
-      Column {
+
         // ///////////////////Linear Progress Bar///////////////////////////
         LinearProgress(
           value = 50f
         )
-        Column {
-          //   LinearGradientShader()
-        }
       }
     }
   }
